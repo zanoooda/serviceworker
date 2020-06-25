@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Admin</title>
+  </head>
+  <body>
+    <button onclick="pushNotification()">Push!</button>
+    <script>
+        function pushNotification() {
+            alert("Yo");
+
+            let notification = {
+                title: "Bubble Nebula", 
+                body: "It's found today at 22:44", 
+                icon: "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg", 
+                image: "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg", 
+                click_action: "https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble"
+            }
+            fetch('https://fcm.googleapis.com/fcm/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'key=' + key,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    // Firebase loses 'image' from the notification.
+                    // And you must see this: https://github.com/firebase/quickstart-js/issues/71
+                    data: notification,
+                    to: "cfVgI3olt7o:APA91bEwyQ3VoAVSPRNJ50Zs-bx_Rz_TwK0g8xWCvNzkZ9OqyN-FfQpe0t0NS6tc4W20gbb3h4eLhyDi9DsiIlWZ4l5G2bmTsATkr3pxrIoOe4u7wwXSKFPn6jOeEi3hsYHtHqKpCxPI"
+                })
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                console.log('Response', json);
+
+                // if (json.success === 1) {
+                //     massage_row.show();
+                //     massage_id.text(json.results[0].message_id);
+                // } else {
+                //     massage_row.hide();
+                //     massage_id.text(json.results[0].error);
+                // }
+            }).catch(function(error) {
+                alert("Error");
+            });
+        }
+    </script>
+  </body>
+</html>
