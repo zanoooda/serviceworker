@@ -5,18 +5,24 @@
     <title>Admin</title>
   </head>
   <body>
-    <input type="text" id="instance-id-token" placeholder="Instance ID Token">
+    <input type="text" id="title" placeholder="title" value="Title"><br>
+    <input type="text" id="body" placeholder="body" value="Happy birthday!"><br>
+    <input type="text" id="icon" placeholder="icon" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg"><br>
+    <input type="text" id="image" placeholder="image" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"><br>
+    <input type="text" id="click-action" placeholder="click action" value="https://www.wikipedia.org"><br>
+    <br>
+    <input type="text" id="instance-id-token" placeholder="Instance ID Token"><br>
     <button onclick="pushNotification()">Push!</button>
     <script>
         function pushNotification() {
             let token = document.getElementById("instance-id-token").value;
             let key = 'AAAAU4FzZ68:APA91bFbRKzaWX4ZqvrHTBlAUa5rO5YevPiqbo3E-PWxkHRWKAYZVZlBEwBxCHifQSd71xC6RvYGJOCubJYkJOFX6sMdxsE7bgekrKxjzJASQ-K_Slb61ARn6n8aaMxIu21HENpD1JXb';
             let notification = {
-                title: "test", 
-                body: "best", 
-                icon: "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg", 
-                image: "https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg", 
-                click_action: "https://www.ya.ru"
+                title: document.getElementById("title").value, 
+                body: document.getElementById("body").value, 
+                icon: document.getElementById("icon").value, 
+                image: document.getElementById("image").value, 
+                click_action: document.getElementById("click-action").value
             }
             fetch('https://fcm.googleapis.com/fcm/send', {
                 method: 'POST',
