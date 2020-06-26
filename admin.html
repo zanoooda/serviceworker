@@ -5,9 +5,11 @@
     <title>Admin</title>
   </head>
   <body>
+    <input type="text" id="instance-id-token" placeholder="Instance ID Token">
     <button onclick="pushNotification()">Push!</button>
     <script>
         function pushNotification() {
+            let token = document.getElementById("instance-id-token").value;
             let key = 'AAAAU4FzZ68:APA91bFbRKzaWX4ZqvrHTBlAUa5rO5YevPiqbo3E-PWxkHRWKAYZVZlBEwBxCHifQSd71xC6RvYGJOCubJYkJOFX6sMdxsE7bgekrKxjzJASQ-K_Slb61ARn6n8aaMxIu21HENpD1JXb';
             let notification = {
                 title: "test", 
@@ -26,7 +28,7 @@
                     // Firebase loses 'image' from the notification.
                     // And you must see this: https://github.com/firebase/quickstart-js/issues/71
                     data: notification,
-                    to: "dVaraQts8sE:APA91bHmIqm5xkvewFtLn30A4zdB7SDAzXj3OetD9QqiCpmwbfPddOtwoGGdXMrOgTDzoWTcjLKSyTpantUJFz4YmLXc6PmA27QSnCavJkF9iMyOzssd1vymesSvyVcDpP7wQKqQ1dNp"
+                    to: token
                 })
             }).then(function(response) {
                 return response.json();
