@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Other side of notifications</title>
+    </head>
+    <body>
+        <input type="text" id="title" placeholder="title" value="Title"><br>
+        <input type="text" id="body" placeholder="body" value="Happy birthday!"><br>
+        <input type="text" id="icon" placeholder="icon" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg"><br>
+        <input type="text" id="image" placeholder="image" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"><br>
+        <input type="text" id="click-action" placeholder="click action" value="https://www.wikipedia.org"><br>
+        <br>
+        <input type="text" id="token" placeholder="token"><br>
+        <button id="send" onclick="sendNotification()">Send Notification</button>
+
+        <script src="firebase.js"></script>
+        <script src="notifications.js"></script>
+    </body>
+</html>
