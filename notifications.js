@@ -1,8 +1,10 @@
-let senderId = '358654109615';
+var senderId = '358654109615';
 
 firebase.initializeApp({
     messagingSenderId: senderId
 });
+
+var messaging = firebase.messaging();
 
 function getToken() {
     messaging.requestPermission()
