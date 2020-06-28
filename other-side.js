@@ -17,7 +17,7 @@ function sendNotification() {
                         image: document.getElementById("image").value, 
                         click_action: document.getElementById("click-action").value
                     },
-                    to: document.getElementById("instance-id-token").value
+                    to: document.getElementById("token").value
                 })
             }).then(function(response) {
                 return response.json();
