@@ -21,14 +21,6 @@ function sendNotification() {
                 return response.json();
             }).then(function(json) {
                 console.log('Response', json);
-
-                // if (json.success === 1) {
-                //     massage_row.show();
-                //     massage_id.text(json.results[0].message_id);
-                // } else {
-                //     massage_row.hide();
-                //     massage_id.text(json.results[0].error);
-                // }
             }).catch(function(error) {
                 alert("Error");
             });
