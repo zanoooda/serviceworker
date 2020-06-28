@@ -26,7 +26,7 @@ if (
                     registration.showNotification(payload.data.title, payload.data); // ?
     
                     var notificationElement = document.createElement('div');
-                    notificationElement.innerHTML = JSON.stringify(payload);
+                    notificationElement.innerHTML = payload.data.body;
                     document.getElementById('notifications-container').appendChild(notificationElement);
                 }).catch(function(error) {
                     alert('ServiceWorker registration failed', error);
