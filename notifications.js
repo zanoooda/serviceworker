@@ -1,5 +1,4 @@
 var senderId = '358654109615';
-var key = 'AAAAU4FzZ68:APA91bFbRKzaWX4ZqvrHTBlAUa5rO5YevPiqbo3E-PWxkHRWKAYZVZlBEwBxCHifQSd71xC6RvYGJOCubJYkJOFX6sMdxsE7bgekrKxjzJASQ-K_Slb61ARn6n8aaMxIu21HENpD1JXb';
 
 firebase.initializeApp({
     messagingSenderId: senderId
