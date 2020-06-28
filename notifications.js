@@ -6,45 +6,76 @@ firebase.initializeApp({
 
 var messaging = firebase.messaging();
 
-// handle catch the notification on current page
-messaging.onMessage(function(payload) {
-    console.log('Message received', payload);
-
-    // register fake ServiceWorker for show notification on mobile devices
-    navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
-    Notification.requestPermission(function(permission) {
-        if (permission === 'granted') {
-            navigator.serviceWorker.ready.then(function(registration) {
-                // Copy data object to get parameters in the click handler
-                payload.data.data = JSON.parse(JSON.stringify(payload.data));
-                registration.showNotification(payload.data.title, payload.data);
-
-                alert(JSON.stringify(payload))
-            }).catch(function(error) {
-                // registration failed :(
-                alert('ServiceWorker registration failed', error);
-            });
-        }
-    });
-});
-
-// Callback fired if Instance ID token is updated.
-messaging.onTokenRefresh(function() {
-    messaging.getToken()
-        .then(function(refreshedToken) {
-            console.log('Token refreshed');
-
-            document.getElementById('current-token').innerHTML = refreshedToken;
-        })
-        .catch(function(error) {
-            alert('Unable to retrieve refreshed token', error);
+if (
+    'Notification' in window && 
+    'serviceWorker' in navigator && // ?
+    'localStorage' in window && // no need?
+    'fetch' in window && // no need?
+    'postMessage' in window // ?
+) { 
+    messaging.onMessage(function(payload) {
+        console.log('Message received', payload);
+    
+        // register fake ServiceWorker for show notification on mobile devices
+        navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
+        Notification.requestPermission(function(permission) {
+            if (permission === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    // Copy data object to get parameters in the click handler
+                    payload.data.data = JSON.parse(JSON.stringify(payload.data)); // ?
+                    registration.showNotification(payload.data.title, payload.data); // ?
+    
+                    var notificationElement = document.createElement('div');
+                    notificationElement.innerHTML = JSON.stringify(payload);
+                    document.getElementById('notifications-container').appendChild(notificationElement);
+                }).catch(function(error) {
+                    alert('ServiceWorker registration failed', error);
+                });
+            }
         });
-});
+    });
+    
+    messaging.onTokenRefresh(function() {
+        messaging.getToken()
+            .then(function(refreshedToken) {
+                console.log('Token refreshed');
+    
+                document.getElementById('current-token').innerHTML = refreshedToken;
+            })
+            .catch(function(error) {
+                alert('Unable to retrieve refreshed token', error);
+            });
+    });
 
-getToken()
+    if (Notification.permission === 'granted') {
+        getToken();
+    } else {
+        document.getElementById('current-token').innerHTML = 'No Instance ID token available. Request permission to generate one';
+    }
+} else {
+    if (!('Notification' in window)) {
+        alert('Notification not supported');
+    } else if (!('serviceWorker' in navigator)) {
+        alert('ServiceWorker not supported');
+    } else if (!('localStorage' in window)) {
+        alert('LocalStorage not supported');
+    } else if (!('fetch' in window)) {
+        alert('fetch not supported');
+    } else if (!('postMessage' in window)) {
+        alert('postMessage not supported');
+    }
+
+    console.warn('This browser does not support desktop notification.');
+    console.log('Is HTTPS', window.location.protocol === 'https:');
+    console.log('Support Notification', 'Notification' in window);
+    console.log('Support ServiceWorker', 'serviceWorker' in navigator);
+    console.log('Support LocalStorage', 'localStorage' in window);
+    console.log('Support fetch', 'fetch' in window);
+    console.log('Support postMessage', 'postMessage' in window);
+}
 
 function getToken() {
-    messaging.requestPermission()
+    messaging.requestPermission() // ?
         .then(function() {
             messaging.getToken()
                 .then(function(currentToken) {
@@ -64,5 +95,18 @@ function getToken() {
 }
 
 function deleteToken() {
-    // ...
+    messaging.getToken()
+    .then(function(currentToken) {
+        messaging.deleteToken(currentToken)
+            .then(function() {
+                console.log('Token deleted');
+                document.getElementById('current-token').innerHTML = 'No Instance ID token available. Request permission to generate one';
+            })
+            .catch(function(error) {
+                alert('Unable to delete token', error);
+            });
+    })
+    .catch(function(error) {
+        alert('Error retrieving Instance ID token', error);
+    });
 }
