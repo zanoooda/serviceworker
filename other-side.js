@@ -18,7 +18,10 @@ function sendNotification() {
                         click_action: document.getElementById("click-action").value,
                         time_to_live: parseInt(document.getElementById("time-to-leave").value)
                     },
-                    to: document.getElementById("token").value
+                    // to: document.getElementById("token").value
+                    "registration_ids": [
+                        document.getElementById("token").value
+                    ]
                 })
             }).then(function(response) {
                 return response.json();
