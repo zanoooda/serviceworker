@@ -15,7 +15,8 @@ function sendNotification() {
                         body: document.getElementById("body").value, 
                         icon: document.getElementById("icon").value, 
                         image: document.getElementById("image").value, 
-                        click_action: document.getElementById("click-action").value
+                        click_action: document.getElementById("click-action").value,
+                        time_to_live: parseInt(document.getElementById("time-to-leave").value)
                     },
                     to: document.getElementById("token").value
                 })
