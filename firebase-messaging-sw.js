@@ -10,10 +10,6 @@ const messaging = firebase.messaging();
 // Customize notification handler
 messaging.setBackgroundMessageHandler(function(payload) {
   console.log('Handling background message', payload);
-  // !
-  var notificationElement = document.createElement('div');
-  notificationElement.innerHTML = payload.data.body;
-  document.getElementById('notifications-container').appendChild(notificationElement);
 
   // Copy data object to get parameters in the click handler
   payload.data.data = JSON.parse(JSON.stringify(payload.data));

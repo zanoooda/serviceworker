@@ -15,6 +15,9 @@ if (
 ) { 
     messaging.onMessage(function(payload) {
         console.log('Message received', payload);
+        var notificationElement = document.createElement('div');
+        notificationElement.innerHTML = payload.data.body;
+        document.getElementById('notifications-container').appendChild(notificationElement);
     
         // register fake ServiceWorker for show notification on mobile devices
         navigator.serviceWorker.register('/serviceworker/firebase-messaging-sw.js');
@@ -24,10 +27,6 @@ if (
                     // Copy data object to get parameters in the click handler
                     payload.data.data = JSON.parse(JSON.stringify(payload.data)); // ?
                     registration.showNotification(payload.data.title, payload.data); // ?
-    
-                    var notificationElement = document.createElement('div');
-                    notificationElement.innerHTML = payload.data.body;
-                    document.getElementById('notifications-container').appendChild(notificationElement);
                 }).catch(function(error) {
                     alert('ServiceWorker registration failed', error);
                 });
